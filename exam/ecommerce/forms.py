@@ -21,5 +21,5 @@ class OrderForm(ModelForm):
     }), validators=[RegexValidator(r'^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$', message='this is correct format: MM:HH')])
 
     class Meta:
-        fields = ('ticket',  'price', 'start_date_day', 'start_date_time',)
         model = Order
+        fields = ('ticket',  'price', 'start_date_day', 'start_date_time',)

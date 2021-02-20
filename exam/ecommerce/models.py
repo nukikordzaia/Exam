@@ -11,6 +11,9 @@ class Ticket(models.Model):
     def __str__(self):
         return self.name
 
+    class Meta:
+        verbose_name = _('Ticket')
+
 
 class Order(models.Model):
     ticket = models.ForeignKey(
@@ -21,3 +24,12 @@ class Order(models.Model):
     price = models.DecimalField(max_digits=4, decimal_places=2, verbose_name=_('price'))
     start_date = models.DateTimeField(verbose_name=_('start order'))
     end_date = models.DateTimeField(verbose_name=_('start order'))
+    user = models.ForeignKey(to='user.User', related_name='orders', on_delete=models.PROTECT)
+
+    def __str__(self):
+        return self.ticket
+
+    class Meta:
+        verbose_name = _('Order')
+
+

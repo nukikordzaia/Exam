@@ -10,6 +10,7 @@ from user.models import User
 class RegistrationForm(ModelForm):
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
+    balance = forms.DecimalField(max_digits=8, decimal_places=2)
     password1 = forms.CharField(
         label=_("Password"),
         strip=False,
@@ -26,10 +27,9 @@ class RegistrationForm(ModelForm):
         fields = (
             'first_name',
             'last_name',
-            'email',
-            'birthdate',
-            'image',
+            'balance',
             'phone_number',
+            'email',
             'password1',
             'password2'
         )
@@ -58,8 +58,6 @@ class RegistrationForm(ModelForm):
     def save(self, commit=True):
         user = super().save(commit=False)
         user.set_password(self.cleaned_data["password1"])
-        user.salary = 0
-        user.hire_date = timezone.now()
         if commit:
             user.save()
         return user
