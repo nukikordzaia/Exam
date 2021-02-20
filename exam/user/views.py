@@ -25,13 +25,13 @@ def user_registration(request):
 
 def user_login(request):
     if request.user.is_authenticated:
-        return render(request, template_name="user/login.html")
+        return render(request, template_name="ecommerce/order-detail.html")
     form = AuthenticationForm()
     if request.method == "POST":
         form = AuthenticationForm(request=request, data=request.POST)
         if form.is_valid():
             login(request, form.get_user())
-            return render(request, template_name="user/login.html")
+            return render(request, template_name="ecommerce/order-detail.html")
     return render(request, template_name="user/login.html", context={
         'form': form
     })
@@ -39,4 +39,4 @@ def user_login(request):
 
 def user_logout(request, *args, **kwargs):
     logout(request)
-    return redirect('user_login')
+    return render(request, template_name="user/login.html")
