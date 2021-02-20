@@ -1,3 +1,6 @@
+{% extends "ecommerce/base.html" %}
+
+{% block content %}
 <div class="container pt-30">
     <div class="section">
         <div class="row">
@@ -61,6 +64,7 @@
                             <button class="btn waves-effect waves-light" type="submit" name="action">Send
                                 <i class="material-icons right">send</i>
                             </button>
+                            <a href="{% url 'user:user_login' %}">already have account? </a>
                         </div>
                     </div>
                 </form>
@@ -69,3 +73,4 @@
     </div>
 
 </div>
+{% endblock %}

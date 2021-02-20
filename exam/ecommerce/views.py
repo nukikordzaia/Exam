@@ -15,6 +15,10 @@ from user.forms import User
 OptDecimal = NewType('Optional Decimal', Optional[Decimal])
 
 
+def home(request):
+    return render(request, "ecommerce/home.html")
+
+
 @login_required
 def order_detail(request):
     order_form = OrderForm()
