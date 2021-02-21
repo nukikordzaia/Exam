@@ -22,9 +22,9 @@ def home(request):
 
 @login_required
 def order_detail(request):
-    order_form = OrderForm()
+    order_form = OrderForm(user=request.user)
     if request.method == 'POST':
-        order_form = OrderForm(request.POST)
+        order_form = OrderForm(request.POST, user=request.user)
         if order_form.is_valid():
             order: Order = order_form.save(commit=False)
             try:
@@ -36,7 +36,11 @@ def order_detail(request):
                     '%d/%m/%Y %H:%M'
                 )
                 order.start_date = start_date
+                order.user_id = request.user.pk
+                order.end_date = order.ticket.end_date
                 order.save()
+                # if success reset form
+                order_form = OrderForm(user=request.user)
             except ValueError:
                 order_form.add_error('start_date_day', 'please, enter correct data ')
 
@@ -73,7 +77,6 @@ def order_detail(request):
         )
     )
     return render(request, template_name='ecommerce/order-detail.html', context={
-        'user': User,
         'balance': balance,
         'user_order_info': user_order_info,
         'order_form': order_form
@@ -93,6 +96,6 @@ def user_tickets(request):
     except EmptyPage:
         tickets = paginator.page(paginator.num_pages)
 
-    return render(request=request, template_name='ecommerce/tickets.html',  context = {
+    return render(request=request, template_name='ecommerce/tickets.html', context={
         'tickets': tickets,
     })

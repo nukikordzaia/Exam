@@ -8,7 +8,13 @@ from ecommerce.models import Order
 
 
 class OrderForm(ModelForm):
-    ticket = ModelChoiceField(queryset=Ticket.objects.all())
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, *kwargs)
+        self.fields['ticket'] = ModelChoiceField(queryset=Ticket.objects.exclude(
+            order__user=user
+        ))
+
     price = DecimalField()
     start_date_day = CharField(widget=TextInput(attrs={
         'class': 'datepicker'

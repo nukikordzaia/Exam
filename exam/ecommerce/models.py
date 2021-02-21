@@ -16,7 +16,7 @@ class Ticket(models.Model):
 
 
 class Order(models.Model):
-    ticket = models.ForeignKey(
+    ticket = models.OneToOneField(
         to='Ticket',
         related_name='order',
         on_delete=models.PROTECT,
