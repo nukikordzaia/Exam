@@ -45,8 +45,12 @@ ul.topnav li.right {float: right;}
 
 <ul class="topnav">
     <li><a href="{% url 'ecommerce:home' %}">Home</a></li>
-    <li><a href="{% url 'user:user_registration' %}">Registration</a></li>
-    <li><a href="{% url 'user:user_login' %}">Log In</a></li>
+    {% if request.user.is_authenticated %}
+        <li><a href="{% url 'ecommerce:orders' %}">orders</a></li>
+    {% else %}
+        <li><a href="{% url 'user:user_registration' %}">Registration</a></li>
+        <li><a href="{% url 'user:user_login' %}">Log In</a></li>
+    {% endif %}
 </ul>
 </body>
 </html>

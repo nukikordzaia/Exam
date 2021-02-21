@@ -27,7 +27,7 @@ class Order(models.Model):
     user = models.ForeignKey(to='user.User', related_name='orders', on_delete=models.PROTECT)
 
     def __str__(self):
-        return self.ticket
+        return str(self.ticket)
 
     class Meta:
         verbose_name = _('Order')
