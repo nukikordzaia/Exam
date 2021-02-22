@@ -15,9 +15,7 @@ def user_registration(request):
         print(registration_form.errors)
         if registration_form.is_valid():
             registration_form.save()
-
             return redirect('user:user_login')
-
     return render(request, template_name='user/registration.html', context={
         'form': registration_form
     })

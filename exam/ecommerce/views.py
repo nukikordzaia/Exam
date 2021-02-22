@@ -2,16 +2,15 @@ from datetime import datetime
 from decimal import Decimal
 from typing import Dict, Optional
 from typing import NewType
-from django.db.models import F, Sum, ExpressionWrapper, DecimalField, Count, Q
+from django.db.models import DecimalField
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Sum, Count, Q, ExpressionWrapper, F
 from django.shortcuts import render
 from django.utils import timezone
-
 from ecommerce.forms import OrderForm
 from ecommerce.models import Order, Ticket
-from user.forms import User
+
 
 OptDecimal = NewType('Optional Decimal', Optional[Decimal])
 
@@ -96,6 +95,13 @@ def user_tickets(request):
     except EmptyPage:
         tickets = paginator.page(paginator.num_pages)
 
-    return render(request=request, template_name='ecommerce/tickets.html', context={
-        'tickets': tickets,
-    })
+    ticket_q = Q()
+    q = request.GET.get('q')
+    print(q)
+    if q:
+        ticket_q &= Q(name__icontains=q)
+    context = {
+        'tickets': Ticket.objects.filter(ticket_q)
+    }
+
+    return render(request=request, template_name='ecommerce/tickets.html', context=context)
